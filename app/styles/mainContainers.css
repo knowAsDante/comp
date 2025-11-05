@@ -11,17 +11,19 @@ body {
 
     .componentBox {}
 
+    .panelMenu {
+        position: absolute;
+        top: 0;
+        width: var(--listMenu_width);
+        height: var(--panelMenu_height);
+        border: 1px solid red;
+    }
+
     .listMenuBox {
         top: 0;
-        left: 0;
-        border: 1px solid red;
-        width: 200px;
     }
 
     .confMenuBox {
-        top: 0;
         right: 0;
-        border: 1px solid red;
-        width: 200px;
     }
 }
