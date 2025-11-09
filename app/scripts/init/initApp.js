@@ -1,11 +1,11 @@
-import { loadContainers } from "../loadContainers.js"
-import * as iface from "./loadInterface.js"
+import { loadContainers } from "../interface/loadContainers.js"
+import { loadListMenu } from "./../interface/listMenu.js"
+import { loadConfigMenu } from "./../interface/configMenu.js"
 
 const main = async () => {
-    loadContainers()
-
-    await iface.addListMenu()
-    await iface.addConfigMenu()
+    await loadContainers()
+    await loadListMenu()
+    await loadConfigMenu()
 }
 
 main()

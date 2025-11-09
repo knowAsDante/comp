@@ -1,6 +1,6 @@
-import * as element from "../scripts/modules/element.js"
+import * as element from "./../modules/element.js"
 
-const addContainers = () => {
+const addContainers = async () => {
     const mainBox = element.add(document.body, "section", "mainBox")
     const componentBox = element.add(mainBox, "div", "componentBox")
     const listMenuBox = element.add(document.body, "section", "listMenuBox")
@@ -39,8 +39,8 @@ const addClass = (array) => {
     })
 }
 
-export const loadContainers = () => {
-    const containers = addContainers()
+export const loadContainers = async () => {
+    const containers = await addContainers()
     addStyles()
     addClass(containers)
 }   

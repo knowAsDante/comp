@@ -1,4 +1,4 @@
-import { AttributeConfigurable } from "../_templates/reactiveComp.js"
+import { AttributeConfigurable } from "../templates/reactiveComp.js"
 
 export class PanelAutoHidden extends AttributeConfigurable {
     constructor() {
@@ -15,11 +15,12 @@ export class PanelAutoHidden extends AttributeConfigurable {
                         <input id="expandInput" type="checkbox" class="hiddenInput">
                     </div>
                 </div>
+                <div class="componentBox relative"></div>
             </div>
         `
 
         this.classStyle.textContent = `
-            .mainContainer {
+            .container {
                 position: absolute;
                 top: 10px;
                 display: flex;
@@ -50,6 +51,12 @@ export class PanelAutoHidden extends AttributeConfigurable {
                             }
                         }
                     }
+
+                    .componentBox {
+                        width: 100%;
+                        height: calc(100% - 40px);
+/*                         overFlow: hidden;
+ */                    }
                 }
             }
 
@@ -82,8 +89,7 @@ export class PanelAutoHidden extends AttributeConfigurable {
         const logic = JSON.parse(this.getAttribute("logic"))
 
         const applySide = (css, logic) => {
-            const mainContainer = this.dom.querySelector(".mainContainer")
-            mainContainer.style.left = css.side === "left" ? css.margin : 0
+            this.container.style.left = css.side === "left" ? css.margin : 0
 
             const topBar = this.dom.querySelector(".topBar")
             topBar.style.justifyContent = css.side === "left" ? "flex-end" : "flex-start"
@@ -111,8 +117,7 @@ export class PanelAutoHidden extends AttributeConfigurable {
         }
 
         const expandControl = (boolean, css, host, hostWidth) => {
-            const mainContainer = this.dom.querySelector(".mainContainer")
-            mainContainer.style.width = boolean ? css.sizeW_min : `calc(var(--sizeW) - var(--margin))`
+            this.container.style.width = boolean ? css.sizeW_min : `calc(var(--sizeW) - var(--margin))`
 
             const titleBox = this.dom.querySelector(".titleBox")
             titleBox.style.opacity = boolean ? 0 : 1

@@ -9,6 +9,7 @@ export class AttributeConfigurable extends HTMLElement {
         this.eventName
         this.sheetStyle
         this.containerControl = true
+        this.data
 
         this._initClass()
     }
@@ -25,7 +26,7 @@ export class AttributeConfigurable extends HTMLElement {
 
     _initContainer() {
         this.container = document.createElement("div")
-        this.container.classList.add("mainContainer")
+        this.container.classList.add("container")
         this.dom.appendChild(this.container)
     }
 
@@ -70,5 +71,17 @@ export class AttributeConfigurable extends HTMLElement {
         link.setAttribute("href", href)
         link.setAttribute("rel", rel)
         dom.appendChild(link)
+    }
+
+    async addComponent(tag, path, id = null, config = null, props = null) {
+        await import(path)
+        const entryPoint = this.dom.querySelector(".componentBox")
+        const component = document.createElement(tag)
+        if (id) component.id = id
+        if (config && config.css) component.setAttribute("css", config.css)
+        if (config && config.logic) component.setAttribute("logic", config.logic)
+        if (props) Object.entries(props).forEach(([key, value]) => component[key] = value)
+        entryPoint.appendChild(component)
+        return component
     }
 }
