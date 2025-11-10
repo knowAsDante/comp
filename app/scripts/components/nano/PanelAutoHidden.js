@@ -55,8 +55,8 @@ export class PanelAutoHidden extends AttributeConfigurable {
                     .componentBox {
                         width: 100%;
                         height: calc(100% - 40px);
-/*                         overFlow: hidden;
- */                    }
+                        overFlow: hidden;
+                    }
                 }
             }
 
@@ -137,7 +137,10 @@ export class PanelAutoHidden extends AttributeConfigurable {
             const host = this.parentElement
             const hostWidth = host.offsetWidth
             const expandInput = this.dom.querySelector(("#expandInput"))
-            expandInput.addEventListener("change", (e) => { expandControl(e.target.checked, css, host, hostWidth) })
+            expandInput.addEventListener("change", (e) => { 
+                expandControl(e.target.checked, css, host, hostWidth) 
+                this.eventDom.dispatchEvent(new CustomEvent(this.id, {detail: e.target.checked}))
+            })
         }
 
         main()

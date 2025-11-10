@@ -7,6 +7,7 @@ export class AttributeConfigurable extends HTMLElement {
         this.classStyle
         this.eventDom
         this.eventName
+        this.eventListen
         this.sheetStyle
         this.containerControl = true
         this.data
@@ -78,8 +79,8 @@ export class AttributeConfigurable extends HTMLElement {
         const entryPoint = this.dom.querySelector(".componentBox")
         const component = document.createElement(tag)
         if (id) component.id = id
-        if (config && config.css) component.setAttribute("css", config.css)
-        if (config && config.logic) component.setAttribute("logic", config.logic)
+        if (config && config.css) component.setAttribute("css", JSON.stringify(config.css))
+        if (config && config.logic) component.setAttribute("logic", JSON.stringify(config.logic))
         if (props) Object.entries(props).forEach(([key, value]) => component[key] = value)
         entryPoint.appendChild(component)
         return component

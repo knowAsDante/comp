@@ -1,52 +1,12 @@
 {
-    "mode1": {
-        "com1": {"name": "component1", "tag": "tag-1", "path": "path-1"},
-        "com2": {"name": "component2", "tag": "tag-2", "path": "path-2"},
-        "com3": {"name": "component3", "tag": "tag-3", "path": "path-3"}
-    },
-    "mode2": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    },
-    "mode3": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    },
-    "mode4": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    },
-    "mode5": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    },
-    "mode6": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    },
-    "mode7": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    },
-    "mode8": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    },
-    "mode9": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    },
-    "mode10": {
-        "com1": {},
-        "com2": {},
-        "com3": {}
-    }
+    "mode1": [
+         {"name": "component1", "tag": "tag-1", "path": "path-1"},
+         {"name": "component2", "tag": "tag-2", "path": "path-2"},
+         {"name": "component3", "tag": "tag-3", "path": "path-3"}
+    ],
+    "mode2": [
+         {"name": "component4", "tag": "tag-4", "path": "path-4"},
+         {"name": "component5", "tag": "tag-5", "path": "path-5"},
+         {"name": "component6", "tag": "tag-6", "path": "path-6"}
+    ]
 }
