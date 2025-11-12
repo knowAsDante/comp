@@ -4,17 +4,17 @@ export class PanelAutoHidden extends AttributeConfigurable {
     constructor() {
         super()
 
+        this.eventDom
+        this.eventName
+        this.childrenEventName
+        this.wait
+
         this.addLink(this.dom, "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap", "stylesheet")
         this.addLink(document.head, "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap", "stylesheet")
 
         this.container.innerHTML = `
             <div class="menuBox relative">
-                <div class="topBar">
-                    <div class="closeButtom relative center">
-                        <span class="closeIcon material-symbols-outlined center"></span>
-                        <input id="expandInput" type="checkbox" class="hiddenInput">
-                    </div>
-                </div>
+                <div class="topBar"></div>
                 <div class="componentBox relative"></div>
             </div>
         `
@@ -22,6 +22,7 @@ export class PanelAutoHidden extends AttributeConfigurable {
         this.classStyle.textContent = `
             .container {
                 position: absolute;
+                z-index: 100;
                 top: 10px;
                 display: flex;
                 width: calc(var(--sizeW) - var(--margin));
@@ -55,8 +56,8 @@ export class PanelAutoHidden extends AttributeConfigurable {
                     .componentBox {
                         width: 100%;
                         height: calc(100% - 40px);
-                        overFlow: hidden;
-                    }
+/*                         overFlow: hidden;
+ */                    }
                 }
             }
 
@@ -66,6 +67,11 @@ export class PanelAutoHidden extends AttributeConfigurable {
             .max {width: 100%; height: 100%;}
             .hiddenInput {position: absolute; width: 100%; height: 100%; appearance: none; cursor: pointer;}
         `
+    }
+
+    block(boolean) {
+        const toogleInput = this.dom.querySelector(".toogleInput")
+        toogleInput.disabled = boolean
     }
 
     connectedCallback() {
@@ -101,7 +107,6 @@ export class PanelAutoHidden extends AttributeConfigurable {
             titleBox.style.alignItems = "center"
             titleBox.style.width = "calc(100% - 60px)"
             titleBox.style.height = "100%"
-            titleBox.style.overflow = "hidden"
             titleBox.style.fontFamily = css.font
             titleBox.style.fontSize = css.fontSize
             titleBox.style.color = css.color
@@ -111,35 +116,47 @@ export class PanelAutoHidden extends AttributeConfigurable {
             titleBox.style.justifyContent = css.side === "left" ? "flex-start" : "flex-end"
         }
 
-        const applyIcon = (logic) => {
-            const closeIcon = this.dom.querySelector(".closeIcon")
+        const createControl = async (logic) => {
+            const topBar = this.dom.querySelector(".topBar")
+
+            const closeButtom = this.elementAdd(topBar, "div", "closeButtom relative center")
+            const closeIcon = this.elementAdd(closeButtom, "div", "closeIcon material-symbols-outlined center")
             closeIcon.textContent = logic.icon
+
+            const toogleInput = this.elementAdd(closeButtom, "input", "hiddenInput toogleInput")
+            toogleInput.setAttribute("type", "checkbox")
         }
 
-        const expandControl = (boolean, css, host, hostWidth) => {
+        const expandControl = async (boolean, css, host, hostWidth) => {
             this.container.style.width = boolean ? css.sizeW_min : `calc(var(--sizeW) - var(--margin))`
+            const time = parseFloat(css.transition) * 1000
 
             const titleBox = this.dom.querySelector(".titleBox")
             titleBox.style.opacity = boolean ? 0 : 1
-
 
             if (this.containerControl) {
                 const minWidth = parseFloat(css.sizeW_min) + parseFloat(css.margin) + "px"
                 host.style.width = boolean ? minWidth : `${hostWidth}px`
             }
+            await new Promise(resolve => setTimeout(resolve, time))
         }
 
         const main = async () => {
             this.applyConfCss(css)
             applySide(css, logic)
-            applyIcon(logic)
+            createControl(logic)
 
             const host = this.parentElement
             const hostWidth = host.offsetWidth
-            const expandInput = this.dom.querySelector(("#expandInput"))
-            expandInput.addEventListener("change", (e) => { 
-                expandControl(e.target.checked, css, host, hostWidth) 
-                this.eventDom.dispatchEvent(new CustomEvent(this.id, {detail: e.target.checked}))
+
+            const toogleInput = this.dom.querySelector(".toogleInput")
+            toogleInput.addEventListener("change", async (e) => {
+                const eLostRef = e.target.checked
+                this.eventDom.dispatchEvent(new CustomEvent(this.childrenEventName, { detail: eLostRef }))
+
+                if (this.wait) await new Promise(resolve => setTimeout(resolve, this.wait))
+                await expandControl(eLostRef, css, host, hostWidth)
+                document.dispatchEvent(new CustomEvent("panelLeft", { detail: eLostRef }))
             })
         }
 

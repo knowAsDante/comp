@@ -85,4 +85,11 @@ export class AttributeConfigurable extends HTMLElement {
         entryPoint.appendChild(component)
         return component
     }
+
+    elementAdd(container, tag, classNames) {
+        const element = document.createElement(tag)
+        element.className = classNames
+        container.appendChild(element)
+        return element
+    }
 }

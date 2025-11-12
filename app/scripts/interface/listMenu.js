@@ -31,7 +31,8 @@ export const loadListMenu = async () => {
     const props = {
         eventDom: document,
         eventName: "panelLeft",
-        containerControl: true
+        childrenEventName: "panelLeft_children",
+        wait: 0
     }
 
     const panel = element.add(listMenuBox, "panel-autohidden", "listPanel", "listMenu", config, props)
@@ -41,39 +42,47 @@ export const loadListMenu = async () => {
 
     const listConfig = {
         css: {
+            menu_W: "100%",
             back: "transparent",
-            pointerColor: "rgba(147, 236, 232, 1)",
             font: "Anta",
             fontSize: "13px",
+            hoverBack: "rgba(255, 255, 255, 0.1)",
+            hoverColor: "rgba(255, 255, 255, 0.85)",
+            selectedColor: "cyan",
+            textColor: "red",
+            textColorSelected: "rgba(50, 50, 50, 1)",
+            optionSelectedBack: "rgba(0, 255, 255, 0.4)",
             transition: "300ms ease-in-out",
-
             /* list */
-            listMenu_W: "100%",
-            listMenu_H: "100%",
             listTitle_H: "32px",
-            listMenu_Color1: "grey",
-            listMenu_Color2: "rgb(50, 50, 50)",
-            listTitle_Color1: "rgba(255, 255, 255, 0.6)",
             listOption_H: "28px",
-            listOption_Color1: "grey",
-            listOption_Color2: "rgb(50, 50, 50)",
-            listOption_Back1: "transparent",
-            listOption_Back2: "rgba(92, 255, 255, 0.6)",
+            titleBackSelected: "rgba(255, 255, 255, 0.6)",
             /* icon */
             iconMenu_W: "40px",
-            iconMenu_H: "100%",
+            iconBox_W: "100%",
+            iconBox_H: "32px",
+            materialSize: "20px",
+            floatBack: getComputedStyle(document.documentElement).getPropertyValue("--darkCrystal")
         },
         logic: {
             mode: "mix"
         }
     }
 
-    const listProps = {
+    const menuProps = {
+        parent: panel,
+        parentEventName: "panelLeft_children",
         eventDom: document,
         eventName: "listMenu",
-        eventListen: "listPanel",
-        data: await (await fetch("./app/scripts/config/components.json")).json()
+        material: true,
+        /* list */
+        data: await (await fetch("./app/scripts/config/components.json")).json(),
+        /* icon */
+        icons: [
+            { name: "Favorite", icon: "favorite", type: "mode1" },
+            { name: "Background", icon: "wallpaper", type: "mode2" }
+        ]
     }
 
-    const listMenu = await panel.addComponent("listmenu-simple", listPath, "listmenu", listConfig, listProps)
+    const listMenu = await panel.addComponent("listmenu-simple", listPath, "listmenu", listConfig, menuProps)
 }
